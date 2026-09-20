@@ -1,0 +1,33 @@
+# byte code / caches
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+
+# environments
+venv/
+env/
+.env
+
+# weights (hosted on Hugging Face, never commit)
+*.pth
+*.pt
+*.ckpt
+*.onnx
+*.safetensors
+pretrained/
+weights/
+
+# experiment outputs
+experiments/
+results/
+outputs/
+tb_logger/
+datasets/
+
+# logs
+*.log
+
+# local machine specific scripts
+*local*
+run_local.sh

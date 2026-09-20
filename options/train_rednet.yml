@@ -1,0 +1,65 @@
+# Training configuration for ReDNet (full model, "ours" setting).
+# Progressive training following Restormer: 5 stages with increasing patch
+# size; batch size values are per GPU.
+name: ReDNet
+exp_root: experiments
+
+datasets:
+  train:
+    # dirty / clean / dirt-mask triplets (4000 patches of 256x256 in the paper;
+    # see README "Data Preparation" for how to build them)
+    dataroot_gt: ./datasets/train/gt
+    dataroot_lq: ./datasets/train/dirty
+    dataroot_mask: ./datasets/train/mask
+    use_mask: true
+    geometric_augs: true
+    gt_size: 384           # base patch loaded by the dataset
+    gt_sizes: [160, 192, 256, 256, 256]  # progressive patch sizes
+    mini_batch_sizes: [3, 2, 1, 1, 1]    # progressive batch size (per GPU)
+    iters: [64000, 48000, 36000, 36000, 24000]
+    batch_size_per_gpu: 2
+    num_worker_per_gpu: 2
+
+  val:
+    dataroot_lq: ./datasets/syn_test/dirty
+    dataroot_gt: ./datasets/syn_test/gt
+
+network_g:
+  type: ReDNet
+  in_ch: 3
+  out_ch: 3
+  num_blocks: [4, 6, 6, 8, 16]
+  num_refinement_blocks: 4
+  ffn_expansion_factor: 2.66
+  bias: false
+  LayerNorm_type: WithBias
+
+path:
+  resume_state: ~    # set to a .state file to resume
+
+train:
+  total_iter: 300000
+  warmup_iter: -1
+  use_grad_clip: true
+  scheduler:
+    type: CosineAnnealingRestartCyclicLR
+    periods: [92000, 208000]   # 1st: fixed lr; 2nd: cosine annealing
+    restart_weights: [1, 1]
+    eta_mins: [0.0003, 0.000001]
+  optim_g:
+    type: AdamW
+    lr: !!float 3e-4
+    weight_decay: !!float 1e-4
+    betas: [0.9, 0.999]
+  # reconstruction loss: LPIPS (VGG, taming weights) + Focal Frequency Loss
+  pixel_opt:
+    type: DirtLoss
+    loss_weight: 1
+    reduction: mean
+
+val:
+  val_freq: !!float 4e3
+
+logger:
+  print_freq: 1000
+  save_checkpoint_freq: !!float 4e3

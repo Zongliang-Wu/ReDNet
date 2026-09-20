@@ -1,0 +1,12 @@
+torch>=1.11
+torchvision>=0.12
+einops
+numpy
+opencv-python
+pyyaml
+natsort
+scikit-image
+lpips
+# training only:
+tensorboard
+huggingface_hub
