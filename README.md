@@ -129,7 +129,7 @@ The synthetic set is generated from the dirty-window imaging model with clean im
 **Licensing note.** DIV2K and Flickr2K are released for academic research only and are collected from Flickr; their terms do not permit redistribution of the images or of derived copies (citing them is not a substitute for a license). Accordingly:
 
 - Obtain them from the official links above.
-- The derived training triplets are distributed via the [Hugging Face repo](https://huggingface.co/MMQDD/ReDNet) as a **gated dataset for academic research only** (`datasets/train`, with `MANIFEST.csv` for integrity checking). If you cannot accept these terms, please do not use them.
+- The datasets are distributed via the [Hugging Face repo](https://huggingface.co/MMQDD/ReDNet) (`datasets/*.zip`) for academic research only. Simply download the `.zip` files under `datasets/` and unzip them into the corresponding directories.
 - The data synthesis pipeline is available in [`synthesis/`](synthesis/README.md) together with the dirt-pattern library (`datasets/dirt_patterns_256`, 3962 train + 815 test patterns), so the training data can also be regenerated locally from officially downloaded DIV2K/Flickr2K images.
 
 Expected folder layout:
