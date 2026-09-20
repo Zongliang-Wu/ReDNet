@@ -5,7 +5,7 @@ Prerequisites:
     export HF_TOKEN=<your token with write access>
 
 Usage:
-    python scripts/upload_hf.py --repo_id Zongliang-Wu/ReDNet \
+    python scripts/upload_hf.py --repo_id MMQDD/ReDNet \
         --files pretrained/rednet_dirt.pth pretrained/lpips_vgg.pth
 """
 import argparse
@@ -16,7 +16,7 @@ from huggingface_hub import HfApi, create_repo
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--repo_id', default='Zongliang-Wu/ReDNet', type=str)
+    parser.add_argument('--repo_id', default='MMQDD/ReDNet', type=str)
     parser.add_argument('--files', nargs='+', required=True, type=str)
     parser.add_argument('--private', action='store_true')
     args = parser.parse_args()

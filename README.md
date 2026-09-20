@@ -1,13 +1,10 @@
 # ReDNet: Restoration of Images Taken Through a Dirty Window Using Optics-guided Transformer
 
-[![paper](https://img.shields.io/badge/Paper-IEEE%20TIP%202025-blue)](https://ieeexplore.ieee.org/document/3573500) [![Weights](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Weights-yellow)](https://huggingface.co/Zongliang-Wu/ReDNet) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-
-> **Restoration of Images Taken Through a Dirty Window Using Optics-guided Transformer**
-> Zongliang Wu, Juzheng Zhang, Ying Fu, Yulun Zhang, Xin Yuan — *IEEE Transactions on Image Processing (TIP), vol. 34, pp. 3352–3365, 2025*. [DOI: 10.1109/TIP.2025.3573500](https://doi.org/10.1109/TIP.2025.3573500)
+[![paper](https://img.shields.io/badge/Paper-IEEE%20TIP%202025-blue)](https://ieeexplore.ieee.org/document/3573500) [![Weights](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Weights-yellow)](https://huggingface.co/MMQDD/ReDNet) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 ## Abstract
 
-Taking photographs through windows is an inevitable scenario in the real world, but glass windows are not ideally clean in most cases. Although there exist various raindrop removal methods, the occlusion of dirt, as another dirty window case, has not been well valued. The vital reasons include *i)* the limitation of the optical imaging model proposed in previous methods, and *ii)* the shortage of a practical dataset for sufficient types of dirty glass windows. To fill this research gap, in this paper, we first propose a general optical imaging model that fits widely used dirty window cases. Following this, training and testing synthetic datasets are generated, and real-world dirty window data are collected to evaluate the effectiveness of our imaging model and synthetic data. For the methodology part, we propose an optics-guided Transformer network to solve this special image restoration problem, i.e., the dirt removal for images taken through a dirty window. Experimental results demonstrate that our imaging model is effective and robust. Our proposed network leads to higher performance than existing methods on both synthetic and real-world dirty window images. Code and data are available at [https://github.com/Zongliang-Wu/ReDNet](https://github.com/Zongliang-Wu/ReDNet).
+Taking photographs through windows is an inevitable scenario in the real world, but glass windows are not ideally clean in most cases. Although there exist various raindrop removal methods, the occlusion of dirt, as another dirty window case, has not been well valued. The vital reasons include *i)* the limitation of the optical imaging model proposed in previous methods, and *ii)* the shortage of a practical dataset for sufficient types of dirty glass windows. To fill this research gap, in this paper, we first propose a general optical imaging model that fits widely used dirty window cases. Following this, training and testing synthetic datasets are generated, and real-world dirty window data are collected to evaluate the effectiveness of our imaging model and synthetic data. For the methodology part, we propose an optics-guided Transformer network to solve this special image restoration problem, i.e., the dirt removal for images taken through a dirty window. Experimental results demonstrate that our imaging model is effective and robust. Our proposed network leads to higher performance than existing methods on both synthetic and real-world dirty window images.
 
 ## Contents
 1. [Visual Results](#visual-results)
@@ -52,7 +49,7 @@ Requirements: Python ≥ 3.8, PyTorch ≥ 1.11 (tested with 1.11 / 2.4), torchvi
 
 ## Pretrained Weights
 
-All weights are hosted on [![Weights](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Weights-yellow)](https://huggingface.co/Zongliang-Wu/ReDNet) (this repository contains no model files). Download and place them as:
+All weights are hosted on [![Weights](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Weights-yellow)](https://huggingface.co/MMQDD/ReDNet) (this repository contains no model files). Download and place them as:
 
 ```
 ReDNet/
@@ -77,7 +74,6 @@ python demo.py --weights pretrained/rednet_dirt.pth --input huge_12mp.jpg --outp
 
 ## Benchmark Evaluation
 
-**Important: use full-reference metrics (PSNR / SSIM / LPIPS) for this task.** No-reference IQA metrics (NIQE, MUSIQ, ...) are known to contradict both visual quality and full-reference metrics on dirty-window data (see supplementary material of the paper), because dirty window images inherently contain realistic, intricate textures.
 
 ### Synthetic test set (Tab. III of the paper)
 
@@ -114,27 +110,12 @@ python tools/test_real.py --mode nr \
 
 ## Training
 
-Progressive training (Restormer-style) for 300k iterations. The default schedule below assumes 2 GPUs; adjust `num_worker_per_gpu`/`batch_size_per_gpu` to your hardware.
 
 ```bash
-# 2 GPUs (recommended, matches the paper setup)
 torchrun --nproc_per_node=2 --master_port=4321 train.py -opt options/train_rednet.yml --launcher pytorch
-# single GPU
-python train.py -opt options/train_rednet.yml
+
 ```
 
-Key settings (already in [`options/train_rednet.yml`](options/train_rednet.yml)):
-
-| Item | Value |
-|---|---|
-| Optimizer | AdamW, lr 3e-4, weight decay 1e-4 |
-| LR schedule | fixed 3e-4 for 92k iters, then cosine to 1e-6 (300k total) |
-| Progressive stages | patch 160/192/256/256/256, bs/GPU 3/2/1/1/1, iters 64k/48k/36k/36k/24k |
-| Reconstruction loss | perceptual + frequency-domain loss (see `options/train_rednet.yml`) |
-| Gradient clip | norm 0.01 |
-| Validation | PSNR on the synthetic val set every 4k iters |
-
-Checkpoints are written to `experiments/ReDNet/models/`. To resume, set `path.resume_state` to a `.state` file. To export a release checkpoint: `python scripts/export_weights.py --input experiments/ReDNet/models/net_g_latest.pth --output pretrained/rednet_dirt.pth`.
 
 ## Dataset Preparation
 
@@ -148,8 +129,8 @@ The synthetic set is generated from the dirty-window imaging model with clean im
 
 **Licensing note.** DIV2K and Flickr2K are released for academic research only and are collected from Flickr; their terms do not permit redistribution of the images or of derived copies (citing them is not a substitute for a license). Accordingly:
 
-- Do **not** re-host DIV2K/Flickr2K or crops of them. Obtain them from the official links above.
-- The derived training triplets are distributed via the [Hugging Face repo](https://huggingface.co/Zongliang-Wu/ReDNet) as a **gated dataset for academic research only** (`datasets/train`, with `MANIFEST.csv` for integrity checking). If you cannot accept these terms, please do not use them.
+- Obtain them from the official links above.
+- The derived training triplets are distributed via the [Hugging Face repo](https://huggingface.co/MMQDD/ReDNet) as a **gated dataset for academic research only** (`datasets/train`, with `MANIFEST.csv` for integrity checking). If you cannot accept these terms, please do not use them.
 - The data synthesis pipeline is available in [`synthesis/`](synthesis/README.md) together with the dirt-pattern library (`datasets/dirt_patterns_256`, 3962 train + 815 test patterns), so the training data can also be regenerated locally from officially downloaded DIV2K/Flickr2K images.
 
 Expected folder layout:
@@ -169,7 +150,7 @@ datasets/
 
 ### Real-world benchmark
 
-The 3 paired and 67 no-reference real images are released in the same [Hugging Face repo](https://huggingface.co/Zongliang-Wu/ReDNet) (`datasets/real_test`). Each pair was captured by photographing through a dirty window, then cleaning the window and re-photographing with identical position and camera settings (10 shots averaged per step); images are cropped to the region of interest and resized to 1200×900. The paired benchmark uses images `1`, `9` and `checker_far`.
+The 3 paired and 67 no-reference real images are released in the same [Hugging Face repo](https://huggingface.co/MMQDD/ReDNet) (`datasets/real_test`). Each pair was captured by photographing through a dirty window, then cleaning the window and re-photographing with identical position and camera settings (10 shots averaged per step); images are cropped to the region of interest and resized to 1200×900. The paired benchmark uses images `1`, `9` and `checker_far`.
 
 ## Notes on Metrics
 
