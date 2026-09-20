@@ -1,6 +1,6 @@
 # ReDNet: Restoration of Images Taken Through a Dirty Window Using Optics-guided Transformer
 
-[![paper](https://img.shields.io/badge/Paper-IEEE%20TIP%202025-blue)](https://ieeexplore.ieee.org/document/3573500) [![Weights](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Weights-yellow)](https://huggingface.co/MMQDD/ReDNet) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![paper](https://img.shields.io/badge/Paper-IEEE%20TIP%202025-blue)](https://ieeexplore.ieee.org/abstract/document/11021506) [![Weights](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Weights-yellow)](https://huggingface.co/MMQDD/ReDNet) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 ## Abstract
 
