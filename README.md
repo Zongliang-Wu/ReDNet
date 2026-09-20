@@ -56,8 +56,7 @@ ReDNet/
 └── pretrained/
     ├── rednet_dirt.pth        # main model: synthetic benchmark (Tab. III) + qualitative results
     ├── rednet_dirt_real.pth   # real-world paired benchmark (Tab. IV) checkpoint of the same run
-    ├── restormer_dirt.pth     # Restormer baseline trained on the same data (optional)
-    └── lpips_vgg.pth          # LPIPS linear weights used by the training loss (taming-transformers vgg.pth)
+    └── restormer_dirt.pth     # Restormer baseline trained on the same data (optional)
 ```
 
 `rednet_dirt.pth` and `rednet_dirt_real.pth` are two checkpoints (276k / 164k iterations) of the same training run; check the SHA256 checksums in `pretrained/SHA256.txt` after download.

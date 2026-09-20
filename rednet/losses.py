@@ -149,7 +149,6 @@ class LPIPS(nn.Module):
     weights (taming-transformers style)."""
 
     CKPT_URLS = [
-        'https://huggingface.co/MMQDD/ReDNet/resolve/main/pretrained/lpips_vgg.pth',
         'https://heibox.uni-heidelberg.de/f/607503859c864bc1b30b/?dl=1',
     ]
 
